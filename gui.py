@@ -21,6 +21,8 @@ def call(path, values=None):
             return None, data.get("error", "Request failed.")
         except ValueError:
             return None, f"Server error ({error.code})."
+    except ValueError:
+        return None, "The server sent an unreadable reply."
     except socket.timeout:
         return None, "The server took too long to answer."
     except URLError:
@@ -57,6 +59,7 @@ class CoffeeApp(tk.Tk):
         ttk.Button(buttons, text="Update selected", command=self.edit_shop).pack(side="left", padx=4)
         ttk.Button(buttons, text="Delete selected", command=self.delete_shop).pack(side="left", padx=4)
         ttk.Button(buttons, text="Clear form", command=self.clear_form).pack(side="left", padx=4)
+        ttk.Button(buttons, text="Statistics", command=self.show_stats).pack(side="right", padx=4)
 
         flt = ttk.LabelFrame(self, text="Filter")
         flt.pack(fill="x", padx=10, pady=8)
@@ -173,6 +176,29 @@ class CoffeeApp(tk.Tk):
         self.clear_form()
         self.refresh()
         self.say(data["message"])
+
+
+    def show_stats(self):
+        """Extra feature: summary of all shops from Flask's /shops/stats route."""
+        data, problem = call("/shops/stats")
+        if problem:
+            self.say(problem, error=True)
+            return
+        stats = data["stats"]
+        if not stats["total"]:
+            self.say("No shops saved yet, so there are no statistics.", error=True)
+            return
+        lines = [
+            f"Total shops: {stats['total']}",
+            f"Average rating: {stats['average']}",
+            f"Top rated: {stats['best']['name']} ({stats['best']['rating']}/5, {stats['best']['region']})",
+            "",
+            "By region (average rating):",
+        ]
+        for item in stats["regions"]:
+            lines.append(f"  {item['region']}: {item['count']} shop(s), {item['average']}")
+        messagebox.showinfo("Statistics", "\n".join(lines))
+        self.say("Statistics loaded.")
 
 
 if __name__ == "__main__":

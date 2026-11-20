@@ -1,9 +1,11 @@
+import os
 import sqlite3
 from contextlib import closing
 
 from flask import Flask, request, jsonify
 
-DB_PATH = "coffee.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.environ.get("COFFEE_DB", os.path.join(BASE_DIR, "coffee.db"))
 app = Flask(__name__)
 
 
@@ -52,6 +54,30 @@ class ShopDB:
             ).fetchone()
         return dict(row) if row else None
 
+    def stats(self):
+        """Extra feature: summary of all saved shops."""
+        with closing(self.connect()) as conn:
+            total, average = conn.execute(
+                "SELECT COUNT(*), AVG(rating) FROM shops"
+            ).fetchone()
+            best = conn.execute(
+                "SELECT * FROM shops ORDER BY rating DESC, id LIMIT 1"
+            ).fetchone()
+            rows = conn.execute(
+                "SELECT region, COUNT(*) AS n, AVG(rating) AS avg_rating "
+                "FROM shops GROUP BY region ORDER BY avg_rating DESC, region"
+            ).fetchall()
+        regions = [
+            {"region": r["region"], "count": r["n"], "average": round(r["avg_rating"], 1)}
+            for r in rows
+        ]
+        return {
+            "total": total,
+            "average": round(average, 1) if average is not None else None,
+            "best": dict(best) if best else None,
+            "regions": regions,
+        }
+
     def add(self, name, region, rating, notes):
         with closing(self.connect()) as conn:
             with conn:
@@ -94,6 +120,8 @@ def validate(form):
     notes = form.get("notes", "").strip()
     if not name:
         return None, "Name is required."
+    if len(name) > 100 or len(region) > 50 or len(notes) > 500:
+        return None, "Name (100), region (50) or notes (500) is too long."
     if not region:
         return None, "Region is required."
     try:
@@ -103,6 +131,17 @@ def validate(form):
     if not 1 <= rating <= 5:
         return None, "Rating must be between 1 and 5."
     return {"name": name, "region": region, "rating": rating, "notes": notes}, None
+
+
+@app.errorhandler(sqlite3.Error)
+def database_problem(exc):
+    """Unexpected database failure: reply with JSON instead of an HTML page."""
+    return error("Database error. Please try again.", 500)
+
+
+@app.route("/shops/stats", methods=["GET"])
+def shop_stats():
+    return jsonify({"ok": True, "stats": db.stats()})
 
 
 @app.route("/shops", methods=["GET"])

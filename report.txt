@@ -1,0 +1,7 @@
+Saudi Coffee Shop Report
+==============================
+#1 Camel Step Coffee | Riyadh | rating 5/5 | Great Saudi coffee and dates
+#2 Brew92 | Madinah | rating 4/5 | Quiet place for studying
+#3 Qahwa Corner | Jeddah | rating 2/5 | Nice view, slow service
+
+Total: 3 shops, average rating 3.7

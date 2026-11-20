@@ -50,6 +50,9 @@ def main():
     except URLError:
         print("Cannot connect to Flask. Start app.py first.")
         sys.exit(1)
+    except (ValueError, KeyError):
+        print("Flask sent a reply the report helper cannot read.")
+        sys.exit(1)
 
     result = {}
     worker = Thread(target=write_report, args=(shops, result))
