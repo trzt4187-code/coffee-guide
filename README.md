@@ -1,6 +1,6 @@
 # Saudi Coffee Shop Guide
 
-**Author:** Tariq Eid Al-Amri · **Student ID:** 451008273 · **GitHub:** https://github.com/YOUR_USER/coffee-guide
+**Author:** Tariq Eid Al-Amri · **Student ID:** 451008273 · **GitHub:** //github.com/trzt4187-code/coffee-guide
 Course: Advanced Programming 462 – Individual Project (Dr. Majed Hariri)
 
 ## What the application does
