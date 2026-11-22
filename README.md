@@ -25,7 +25,7 @@ Tkinter (gui.py)  <-- HTTP + JSON -->  Flask (app.py)  <-->  SQLite (coffee.db)
 | `report.py` | Report helper using a `Thread` and a UTF-8 file |
 | `test_app.py` | Automated back-end tests |
 | `requirements.txt` | Python packages (Flask) |
-| `slides/` | Presentation slides |
+
 
 ## Install and run
 Requires Python 3.9+ with Tkinter (included with the standard Python installer on Windows/macOS;
