@@ -103,7 +103,7 @@ class ShopDB:
             with conn:
                 cur = conn.execute("DELETE FROM shops WHERE id = ?", (shop_id,))
                 return cur.rowcount > 0
-
+    
 
 db = ShopDB(DB_PATH)
 db.create_table()
