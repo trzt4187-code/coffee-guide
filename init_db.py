@@ -11,7 +11,6 @@ from app import db
 SAMPLES = [
     ("Camel Step Coffee", "Riyadh", 5, "Great Saudi coffee and dates"),
     ("Brew92", "Madinah", 4, "Quiet place for studying"),
-    ("zoy", "Maka", 5, "good"),
     ("Qahwa Corner", "Jeddah", 3, "Nice view, slow service"),
 ]
 

@@ -1,6 +1,6 @@
 # Saudi Coffee Shop Guide
 
-**Author:** Tariq Eid Al-Amri · **Student ID:** 451008273 · **GitHub:** //github.com/trzt4187-code/coffee-guide
+**Author:** Tariq Eid Al-Amri · **Student ID:** 451008273 · **GitHub:** https://github.com/trzt4187-code/coffee-guide
 Course: Advanced Programming 462 – Individual Project (Dr. Majed Hariri)
 
 ## What the application does
@@ -25,7 +25,7 @@ Tkinter (gui.py)  <-- HTTP + JSON -->  Flask (app.py)  <-->  SQLite (coffee.db)
 | `report.py` | Report helper using a `Thread` and a UTF-8 file |
 | `test_app.py` | Automated back-end tests |
 | `requirements.txt` | Python packages (Flask) |
-
+| `slides/` | Presentation slides (PowerPoint and PDF) |
 
 ## Install and run
 Requires Python 3.9+ with Tkinter (included with the standard Python installer on Windows/macOS;
@@ -106,4 +106,5 @@ Tkinter manual checklist (tick after running it on your own computer):
 
 ## Credits
 - Python standard library, Flask (BSD licence), Tkinter, SQLite.
+- AI assistance: Claude (Anthropic) was used to help plan the project, explain concepts, review the code and prepare the slides. I ran and tested the application myself.
 
